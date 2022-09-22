@@ -9,28 +9,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-
     @Resource
     private UserRepository userRepository;
 
-    public List<User> getUsers() {
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public Optional<User> findByEmail(String login) {
+        return userRepository.findByEmail(login);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User save(User user) throws Exception {
-        User userPersisted;
+        User newUser;
 
         try {
-            userPersisted = userRepository.insert(user);
+            newUser = userRepository.insert(user);
         } catch (DuplicateKeyException dke) {
-            throw new DuplicateKeyException("Username already in use!");
+            throw new DuplicateKeyException("Cpf/Cnpj or Email already in use!");
         } catch (Exception ex) {
             throw new Exception("Error saving user!");
         }
-        return userPersisted;
+        return newUser;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean delete(String email) {
+        Optional<User> user = this.findByEmail(email);
+
+        if (user.isPresent()) {
+            userRepository.deleteById(user.get().getId());
+            return true;
+        }
+        return false;
     }
 }
