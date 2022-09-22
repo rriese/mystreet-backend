@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,8 @@ public class Status {
     private String id;
     @Indexed(unique=true)
     private String name;
-    private Date createdAt;
-    private Date updatedAt;
+    @CreatedDate
+    private DateTime createdAt;
+    @LastModifiedDate
+    private DateTime updatedAt;
 }

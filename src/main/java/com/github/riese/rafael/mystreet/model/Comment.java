@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +19,13 @@ import java.util.Date;
 public class Comment {
     @Id
     private String id;
+    @DBRef
     private User user;
+    @DBRef
     private Claim claim;
     private String description;
-    private Date createdAt;
-    private Date updatedAt;
+    @CreatedDate
+    private DateTime createdAt;
+    @LastModifiedDate
+    private DateTime updatedAt;
 }

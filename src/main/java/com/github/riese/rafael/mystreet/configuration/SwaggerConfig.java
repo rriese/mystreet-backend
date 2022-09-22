@@ -1,5 +1,7 @@
 package com.github.riese.rafael.mystreet.configuration;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
