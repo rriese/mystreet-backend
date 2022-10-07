@@ -6,6 +6,8 @@ import com.github.riese.rafael.mystreet.repository.ProfileRepository;
 import com.github.riese.rafael.mystreet.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,37 +24,44 @@ public class UserService {
     private ProfileRepository profileRepository;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> findAll() {
+        return ResponseEntity.ok().body(userRepository.findAll());
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public Optional<User> findByEmail(String login) {
-        return userRepository.findByEmail(login);
+    public ResponseEntity<Optional<User>> findById(String id) {
+        var user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            return ResponseEntity.ok().body(user);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public User save(User user) throws Exception {
+    public ResponseEntity<User> save(User user) throws Exception {
         User newUser;
 
-        Optional<Profile> userProfile = profileRepository.findById(user.getProfile().getId());
+        if (user.getProfile() != null) {
+            Optional<Profile> userProfile = profileRepository.findById(user.getProfile().getId());
 
-        if (userProfile.isPresent()) {
-            user.setProfile(userProfile.get());
+            if (userProfile.isPresent()) {
+                user.setProfile(userProfile.get());
+            }
         }
 
         try {
             newUser = userRepository.insert(user);
         } catch (DuplicateKeyException dke) {
-            throw new DuplicateKeyException("Cpf/Cnpj or Email already in use!");
+            throw new DuplicateKeyException("Cpf/Cnpj ou Email já está em uso! \n" + dke.getMessage());
         } catch (Exception ex) {
-            throw new Exception("Error saving user!");
+            throw new Exception(ex.getMessage());
         }
-        return newUser;
+        return ResponseEntity.ok().body(newUser);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public User update(User user) {
+    public ResponseEntity<User> update(User user) {
         Optional<User> userOpt = userRepository.findById(user.getId());
 
         if (userOpt.isPresent()) {
@@ -60,19 +69,19 @@ public class UserService {
 
             BeanUtils.copyProperties(user, oldUser);
             userRepository.save(oldUser);
-            return oldUser;
+            return ResponseEntity.ok().body(oldUser);
         }
-        return user;
+        return ResponseEntity.notFound().build();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(String email) {
-        Optional<User> user = this.findByEmail(email);
+    public ResponseEntity<Boolean> delete(String id) {
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
             userRepository.deleteById(user.get().getId());
-            return true;
+            return ResponseEntity.ok().body(true);
         }
-        return false;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
     }
 }
