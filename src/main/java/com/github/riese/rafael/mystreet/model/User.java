@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -18,7 +19,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Getter
 @Document(collection = "user")
-public class User extends Auditable {
+public class User extends Auditable implements IEntity {
     @Id
     private String id;
     @NotNull

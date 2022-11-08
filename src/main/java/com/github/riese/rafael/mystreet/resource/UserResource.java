@@ -2,6 +2,7 @@ package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.model.User;
 import com.github.riese.rafael.mystreet.service.UserService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +20,6 @@ public class UserResource {
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
         return userService.findAll();
-    }
-
-    @GetMapping("/test")
-    public User getNewUser() {
-        return new User();
     }
 
     @PostMapping("/")
