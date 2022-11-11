@@ -33,8 +33,12 @@ jobs:
         path: './src/main/resources/secrets.properties'
         property: |
           spring.data.mongodb.uri
+          spring.data.mongodb.auto-index-creation
+          spring.mvc.pathmatch.matching-strategy
         value: |
           ${{secrets.MONGODB_URI}}
+          ${{secrets.MONGODB_INDEX_CREATION}}
+          ${{secrets.SPRING_MATCHING_STRATEGY}}          
 
     - name: Build with Maven
       run: mvn package
