@@ -1,4 +1,4 @@
 # mystreet-backend
 MyStreet Backend
 
-https://mystreet-backend.herokuapp.com/api/user/
+https://mystreet-backend.herokuapp.com
