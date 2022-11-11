@@ -40,10 +40,6 @@ jobs:
           ${{secrets.MONGODB_INDEX_CREATION}}
           ${{secrets.SPRING_MATCHING_STRATEGY}}          
 
-    - spring:
-      mvc:
-        pathmatch:
-          matching-strategy: ant_path_matcher
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
