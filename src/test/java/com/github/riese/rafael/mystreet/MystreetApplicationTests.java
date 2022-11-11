@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class MystreetApplicationTests {
 
-	@Resource
-	UserService userService;
-
-	@Test
-	void getUsersNotEmpty() {
-		var users = userService.findAll();
-		assertTrue(users.getBody().size() > 0);
-	}
+//	@Resource
+//	UserService userService;
+//
+//	@Test
+//	void getUsersNotEmpty() {
+//		var users = userService.findAll();
+//		assertTrue(users.getBody().size() > 0);
+//	}
 
 }
