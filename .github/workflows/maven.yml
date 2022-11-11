@@ -37,8 +37,8 @@ jobs:
           spring.mvc.pathmatch.matching-strategy
         value: |
           ${{secrets.MONGODB_URI}}
-          true
-          ant-path-matcher         
+          ${{secrets.MONGODB_INDEX_CREATION}}
+          ${{secrets.SPRING_MATCHING_STRATEGY}}          
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
