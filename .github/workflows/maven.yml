@@ -32,9 +32,9 @@ jobs:
       with:
         path: './src/main/resources/application.properties'
         property: |
-          'spring.data.mongodb.uri'
+          spring.data.mongodb.uri
         value: |
-          'TEST'
+          TEST
 
     - name: Build with Maven
       run: mvn package
