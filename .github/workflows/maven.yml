@@ -34,7 +34,7 @@ jobs:
         property: |
           'spring.data.mongodb.uri'
         value: |
-          ${{ secrets.MONGODB_URI }}
+          ${{ mystreet-backend.MONGODB_URI }}
 
     - name: Build with Maven
       run: mvn package
