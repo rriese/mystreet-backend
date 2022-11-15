@@ -1,4 +1,4 @@
 # mystreet-backend
 MyStreet Backend
 
-https://mystreet-backend.herokuapp.com
+https://mystreet-backend.herokuapp.com/swagger-ui.html
