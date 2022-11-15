@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @EnableSwagger2
 public class SwaggerConfig {
     @Bean
