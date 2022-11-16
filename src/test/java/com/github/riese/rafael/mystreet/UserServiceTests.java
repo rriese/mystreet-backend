@@ -18,11 +18,11 @@ class UserServiceTests {
 	UserService userService;
 	@Resource
 	ProfileService profileService;
-	static String userId;
+	static String testId;
 
 	@BeforeAll
 	static void initTest() {
-		userId = null;
+		testId = null;
 	}
 
 	@Test
@@ -44,7 +44,7 @@ class UserServiceTests {
 
 		try {
 			 userCreated = userService.save(user).getBody();
-			 userId = userCreated.getId();
+			 testId = userCreated.getId();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
@@ -54,7 +54,7 @@ class UserServiceTests {
 	@Test
 	@Order(2)
 	void findUserCreated() {
-		var user = userService.findById(userId);
+		var user = userService.findById(testId);
 		assertNotNull(user);
 	}
 
@@ -68,7 +68,7 @@ class UserServiceTests {
 	@Test
 	@Order(4)
 	void deleteUser() {
-		var isUserDeleted = userService.delete(userId).getBody();
+		var isUserDeleted = userService.delete(testId).getBody();
 		assertTrue(isUserDeleted);
 	}
 

@@ -16,11 +16,11 @@ public class StatusServiceTests {
 
     @Resource
     StatusService statusService;
-    static String statusId;
+    static String testId;
 
     @BeforeAll
     static void initTest() {
-        statusId = null;
+        testId = null;
     }
 
     @Test
@@ -33,17 +33,17 @@ public class StatusServiceTests {
 
         try {
             statusCreated = statusService.save(status).getBody();
-            statusId = statusCreated.getId();
+            testId = statusCreated.getId();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        assertNotNull(statusId);
+        assertNotNull(testId);
     }
 
     @Test
     @Order(2)
     void findStatusCreated() {
-        var status = statusService.findById(statusId);
+        var status = statusService.findById(testId);
         assertNotNull(status);
     }
 
@@ -57,7 +57,7 @@ public class StatusServiceTests {
     @Test
     @Order(4)
     void deleteStatus() {
-        var isStatusDeleted = statusService.delete(statusId).getBody();
+        var isStatusDeleted = statusService.delete(testId).getBody();
         assertTrue(isStatusDeleted);
     }
 
