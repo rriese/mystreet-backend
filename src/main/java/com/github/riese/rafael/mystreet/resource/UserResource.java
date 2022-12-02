@@ -4,6 +4,7 @@ import com.github.riese.rafael.mystreet.model.User;
 import com.github.riese.rafael.mystreet.service.UserService;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -14,8 +15,8 @@ import java.util.List;
 public class UserResource {
     @Resource
     private UserService userService;
-//    @Resource
-//    private PasswordEncoder encoder;
+    @Resource
+    private PasswordEncoder encoder;
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
@@ -24,7 +25,7 @@ public class UserResource {
 
     @PostMapping("/")
     public ResponseEntity<User> save(@RequestBody User user) throws Exception {
-//        user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword()));
         return userService.save(user);
     }
 
