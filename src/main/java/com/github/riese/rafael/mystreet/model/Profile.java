@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Document(collection = "profile")
-public class Profile extends Auditable implements IEntity {
+public class Profile extends Auditable implements IEntity, GrantedAuthority {
     @Id
     private String id;
     @Indexed(unique=true)
@@ -26,4 +27,9 @@ public class Profile extends Auditable implements IEntity {
     private String name;
     @DBRef
     private List<Permission> permission;
+
+    @Override
+    public String getAuthority() {
+        return this.name;
+    }
 }

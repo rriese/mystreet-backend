@@ -1,5 +1,6 @@
 package com.github.riese.rafael.mystreet.security;
 
+import com.github.riese.rafael.mystreet.repository.UserRepository;
 import com.github.riese.rafael.mystreet.service.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -15,8 +16,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
 
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class JwtConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Resource
+    private UserRepository userRepository;
 
     @Resource
     private UserDetailService userDetailService;
@@ -34,6 +38,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeHttpRequests().
                 antMatchers(HttpMethod.POST, "/login").permitAll().
                 antMatchers(HttpMethod.POST, "/api/user/").permitAll().
+//                antMatchers(HttpMethod.GET, "/api/user/").hasRole("CITY_HALL").
                 antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
@@ -43,7 +48,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                 anyRequest().authenticated().
                 and().
                 addFilter(new JwtAuthenticationFilter(authenticationManager())).
-                addFilter(new JwtValidationFilter(authenticationManager())).
+                addFilter(new JwtValidationFilter(authenticationManager(), userRepository)).
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
