@@ -2,6 +2,7 @@ package com.github.riese.rafael.mystreet.security;
 
 import com.github.riese.rafael.mystreet.repository.UserRepository;
 import com.github.riese.rafael.mystreet.service.UserDetailService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,12 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Value("${jwt.expiration.time}")
+    private int EXPIRATION_TIME;
+
+    @Value("${jwt.secret}")
+    private String SECRET;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
@@ -47,7 +54,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**").permitAll().
                 anyRequest().authenticated().
                 and().
-                addFilter(new JwtAuthenticationFilter(authenticationManager())).
+                addFilter(new JwtAuthenticationFilter(authenticationManager(), EXPIRATION_TIME, SECRET)).
                 addFilter(new JwtValidationFilter(authenticationManager(), userRepository)).
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

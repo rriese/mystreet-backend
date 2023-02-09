@@ -24,14 +24,14 @@ import java.util.*;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Value("${jwt.expiration.time}")
-    public static int EXPIRATION_TIME;
-    @Value("${jwt.secret}")
-    public static String SECRET;
+    public static int expirationTime;
+    public static String secret;
     private AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, int expirationTime, String secret) {
         this.authenticationManager = authenticationManager;
+        this.expirationTime = expirationTime;
+        this.secret = secret;
     }
 
     @Override
@@ -58,8 +58,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetailData userDetailData = (UserDetailData) authResult.getPrincipal();
         String token = JWT.create().
                 withSubject(userDetailData.getUsername()).
-                withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).
-                sign(Algorithm.HMAC512(SECRET));
+                withExpiresAt(new Date(System.currentTimeMillis() + expirationTime)).
+                sign(Algorithm.HMAC512(secret));
         response.getWriter().write(token);
         response.getWriter().flush();
     }
