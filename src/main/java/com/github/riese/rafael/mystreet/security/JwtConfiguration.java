@@ -29,6 +29,12 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Value("${jwt.expiration.time}")
+    private int EXPIRATION_TIME;
+
+    @Value("${jwt.secret}")
+    private String SECRET;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
@@ -48,7 +54,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**").permitAll().
                 anyRequest().authenticated().
                 and().
-                addFilter(new JwtAuthenticationFilter(authenticationManager())).
+                addFilter(new JwtAuthenticationFilter(authenticationManager(), EXPIRATION_TIME, SECRET)).
                 addFilter(new JwtValidationFilter(authenticationManager(), userRepository)).
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
