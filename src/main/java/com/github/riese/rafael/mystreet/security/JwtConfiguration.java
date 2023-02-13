@@ -29,12 +29,6 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private PasswordEncoder passwordEncoder;
 
-    @Value("${jwt.expiration.time}")
-    private int EXPIRATION_TIME;
-
-    @Value("${jwt.secret}")
-    private String SECRET;
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
@@ -45,7 +39,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeHttpRequests().
                 antMatchers(HttpMethod.POST, "/login").permitAll().
                 antMatchers(HttpMethod.POST, "/api/user/").permitAll().
-//                antMatchers(HttpMethod.GET, "/api/user/").hasRole("CITY_HALL").
+                antMatchers(HttpMethod.GET, "/api/user/").hasRole("CITY_HALL").
                 antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
@@ -54,7 +48,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                         "/webjars/**").permitAll().
                 anyRequest().authenticated().
                 and().
-                addFilter(new JwtAuthenticationFilter(authenticationManager(), EXPIRATION_TIME, SECRET)).
+                addFilter(new JwtAuthenticationFilter(authenticationManager())).
                 addFilter(new JwtValidationFilter(authenticationManager(), userRepository)).
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
