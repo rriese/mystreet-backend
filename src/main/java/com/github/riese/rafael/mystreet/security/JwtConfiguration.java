@@ -17,7 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class JwtConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
