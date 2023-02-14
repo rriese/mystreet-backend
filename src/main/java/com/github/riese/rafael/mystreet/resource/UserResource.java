@@ -1,6 +1,8 @@
 package com.github.riese.rafael.mystreet.resource;
 
+import com.github.riese.rafael.mystreet.model.Profile;
 import com.github.riese.rafael.mystreet.model.User;
+import com.github.riese.rafael.mystreet.repository.ProfileRepository;
 import com.github.riese.rafael.mystreet.service.UserService;
 
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,10 @@ import java.util.List;
 public class UserResource {
     @Resource
     private UserService userService;
+
+    @Resource
+    private ProfileRepository profileRepository;
+
     @Resource
     private PasswordEncoder encoder;
 
@@ -26,6 +32,15 @@ public class UserResource {
     @PostMapping("/")
     public ResponseEntity<User> save(@RequestBody User user) throws Exception {
         user.setPassword(encoder.encode(user.getPassword()));
+
+        var profile = profileRepository.findByName("ROLE_VISITOR");
+
+        if (profile.isPresent()) {
+            user.setProfile(profile.get());
+        } else {
+            throw new Exception("Perfil de visitante inválido na base de dados!");
+        }
+
         return userService.save(user);
     }
 

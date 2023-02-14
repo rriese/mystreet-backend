@@ -39,6 +39,8 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeHttpRequests().
                 antMatchers(HttpMethod.POST, "/login").permitAll().
                 antMatchers(HttpMethod.POST, "/api/user/").permitAll().
+                antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN").
+                antMatchers("/api/admin/**").hasRole("ADMIN").
                 antMatchers(HttpMethod.GET, "/api/user/").hasRole("CITY_HALL").
                 antMatchers("/v2/api-docs",
                         "/configuration/ui",

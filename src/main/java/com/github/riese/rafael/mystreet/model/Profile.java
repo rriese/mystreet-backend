@@ -25,8 +25,6 @@ public class Profile extends Auditable implements IEntity, GrantedAuthority {
     @Indexed(unique=true)
     @NotNull
     private String name;
-    @DBRef
-    private List<Permission> permission;
 
     @Override
     public String getAuthority() {
