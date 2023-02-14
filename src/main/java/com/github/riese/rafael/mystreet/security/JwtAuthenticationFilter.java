@@ -24,14 +24,12 @@ import java.util.*;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    public static int expirationTime;
-    public static String secret;
+    public static final int expirationTime = 600000;
+    public static final String secret = String.valueOf(Math.random());;
     private AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, int expirationTime, String secret) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.expirationTime = expirationTime;
-        this.secret = secret;
     }
 
     @Override
