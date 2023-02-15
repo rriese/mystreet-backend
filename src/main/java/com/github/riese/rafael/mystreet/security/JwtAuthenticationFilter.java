@@ -25,7 +25,7 @@ import java.util.*;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public static final int expirationTime = 600000;
-    public static final String secret = String.valueOf(Math.random());;
+    public static final String secret = String.valueOf(Math.random());
     private AuthenticationManager authenticationManager;
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
