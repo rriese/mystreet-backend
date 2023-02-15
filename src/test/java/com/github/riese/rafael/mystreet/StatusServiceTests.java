@@ -1,5 +1,6 @@
 package com.github.riese.rafael.mystreet;
 
+import com.github.riese.rafael.mystreet.model.Profile;
 import com.github.riese.rafael.mystreet.model.Status;
 import com.github.riese.rafael.mystreet.service.StatusService;
 import org.junit.jupiter.api.*;
@@ -27,7 +28,7 @@ public class StatusServiceTests {
     @Order(1)
     void createStatus() {
         var status = new Status();
-        status.setName("User test");
+        status.setName("Status test");
 
         Status statusCreated = null;
 
@@ -49,13 +50,30 @@ public class StatusServiceTests {
 
     @Test
     @Order(3)
+    void updateStatus() {
+        var status = new Status();
+        status.setId(testId);
+        status.setName("Status test updated");
+
+        Status statusUpdated = null;
+
+        try {
+            statusUpdated = statusService.update(status).getBody();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        assertNotNull(statusUpdated);
+    }
+
+    @Test
+    @Order(4)
     void findAllStatus() {
         var status = statusService.findAll().getBody();
         assertTrue(status.size() > 0);
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void deleteStatus() {
         var isStatusDeleted = statusService.delete(testId).getBody();
         assertTrue(isStatusDeleted);

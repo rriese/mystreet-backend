@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
-
     private UserRepository userRepository;
 
     public JwtValidationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {

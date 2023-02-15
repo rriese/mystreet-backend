@@ -19,13 +19,10 @@ import javax.annotation.Resource;
 
 @EnableWebSecurity
 public class JwtConfiguration extends WebSecurityConfigurerAdapter {
-
     @Resource
     private UserRepository userRepository;
-
     @Resource
     private UserDetailService userDetailService;
-
     @Resource
     private PasswordEncoder passwordEncoder;
 
@@ -41,6 +38,8 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                 antMatchers(HttpMethod.POST, "/api/user/").permitAll().
                 antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN").
                 antMatchers("/api/admin/**").hasRole("ADMIN").
+                antMatchers("/api/status/**").hasRole("ADMIN").
+                antMatchers("/api/profile/**").hasRole("ADMIN").
                 antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
