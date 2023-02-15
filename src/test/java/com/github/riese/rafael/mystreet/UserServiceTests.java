@@ -1,5 +1,6 @@
 package com.github.riese.rafael.mystreet;
 
+import com.github.riese.rafael.mystreet.model.Status;
 import com.github.riese.rafael.mystreet.model.User;
 import com.github.riese.rafael.mystreet.service.ProfileService;
 import com.github.riese.rafael.mystreet.service.UserService;
@@ -60,13 +61,33 @@ class UserServiceTests {
 
 	@Test
 	@Order(3)
+	void updateUser() {
+		var user = new User();
+		user.setId(testId);
+		user.setName("User test updated");
+		user.setCpfCnpj("111");
+		user.setEmail("testUpdated@test.com");
+		user.setPassword("1234");
+
+		User userUpdated = null;
+
+		try {
+			userUpdated = userService.update(user).getBody();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		assertNotNull(userUpdated);
+	}
+
+	@Test
+	@Order(4)
 	void findAllUsers() {
 		var users = userService.findAll().getBody();
 		assertTrue(users.size() > 0);
 	}
 
 	@Test
-	@Order(4)
+	@Order(5)
 	void deleteUser() {
 		var isUserDeleted = userService.delete(testId).getBody();
 		assertTrue(isUserDeleted);
