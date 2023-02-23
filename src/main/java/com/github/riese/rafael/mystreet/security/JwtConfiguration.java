@@ -16,6 +16,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 @EnableWebSecurity
 public class JwtConfiguration extends WebSecurityConfigurerAdapter {
@@ -33,7 +35,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeHttpRequests().
+        http.csrf().disable().cors().and().authorizeHttpRequests().
                 antMatchers(HttpMethod.POST, "/login").permitAll().
                 antMatchers(HttpMethod.POST, "/api/user/").permitAll().
                 antMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN").
@@ -57,6 +59,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         source.registerCorsConfiguration("/**", corsConfiguration);
 
         return source;
