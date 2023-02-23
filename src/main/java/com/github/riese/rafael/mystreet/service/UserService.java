@@ -34,7 +34,7 @@ public class UserService extends ServiceBase<User, UserRepository> {
         try {
             newUser = userRepository.insert(user);
         } catch (DuplicateKeyException dke) {
-            throw new DuplicateKeyException("Cpf/Cnpj ou Email já está em uso! \n" + dke.getMessage());
+            throw new DuplicateKeyException("Cpf/Cnpj ou Email já está em uso!");
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
