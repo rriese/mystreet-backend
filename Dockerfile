@@ -1,15 +1,9 @@
-#
-# Build stage
-#
-FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+FROM openjdk:17-jdk-slim-buster
+WORKDIR /app
 
-#
-# Package stage
-#
-FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/Falcon-0.0.1.jar /usr/local/lib/falcon.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/usr/local/lib/falcon.jar"]
+COPY app/build/lib/* build/lib/
+
+COPY app/build/libs/app.jar build/
+
+WORKDIR /app/build
+ENTRYPOINT java -jar app.jar
