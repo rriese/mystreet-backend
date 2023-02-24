@@ -1,9 +1,5 @@
-FROM openjdk:17-jdk-slim-buster
-WORKDIR /app
-
-COPY app/build/lib/* build/lib/
-
-COPY app/build/libs/app.jar build/
-
-WORKDIR /app/build
-ENTRYPOINT java -jar app.jar
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
