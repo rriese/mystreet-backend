@@ -50,10 +50,13 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                 getSubject();
 
         Collection<Profile> authorities = new ArrayList<>();
-        var userObj = userRepository.findByEmail(user);
 
-        if (userObj.isPresent()) {
-            authorities.add(userObj.get().getProfile());
+        if (user != null) {
+            var userObj = userRepository.findByEmail(user);
+
+            if (userObj.isPresent()) {
+                authorities.add(userObj.get().getProfile());
+            }
         }
 
         return user != null ? new UsernamePasswordAuthenticationToken(user, token, authorities) : null;
