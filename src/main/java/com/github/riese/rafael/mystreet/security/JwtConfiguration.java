@@ -59,7 +59,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://mystreet-frontend-kt3nmfyba-rriese.vercel.app"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://mystreet-frontend-kt3nmfyba-rriese.vercel.app", "https://mystreet-frontend.vercel.app/"));
         corsConfiguration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.DELETE.name()));
         source.registerCorsConfiguration("/**", corsConfiguration);
 
