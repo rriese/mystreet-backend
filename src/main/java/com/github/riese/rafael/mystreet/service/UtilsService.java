@@ -14,7 +14,7 @@ public class UtilsService {
         return (String)this.getAuthentication().getDetails();
     }
 
-    public String getCurrentUserEmail() {
-        return (String)this.getAuthentication().getPrincipal();
-    }
+//    public String getCurrentUserEmail() {
+//        return (String)this.getAuthentication().getPrincipal();
+//    }
 }
