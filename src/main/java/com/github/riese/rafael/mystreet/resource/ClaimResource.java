@@ -3,6 +3,8 @@ package com.github.riese.rafael.mystreet.resource;
 import com.github.riese.rafael.mystreet.model.Claim;
 import com.github.riese.rafael.mystreet.service.ClaimService;
 
+import com.github.riese.rafael.mystreet.service.UserService;
+import com.github.riese.rafael.mystreet.service.UtilsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,10 @@ import java.util.List;
 public class ClaimResource {
     @Resource
     private ClaimService claimService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private UtilsService utilsService;
 
     @GetMapping("/")
     public ResponseEntity<List<Claim>> getClaims() {
@@ -22,6 +28,7 @@ public class ClaimResource {
 
     @PostMapping("/")
     public ResponseEntity<Claim> save(@RequestBody Claim claim) throws Exception {
+        claim.setUser(userService.findById(utilsService.getCurrentUserId()).getBody().get());
         return claimService.save(claim);
     }
 
