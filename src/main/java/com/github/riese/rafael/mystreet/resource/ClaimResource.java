@@ -1,8 +1,10 @@
 package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.model.Claim;
+import com.github.riese.rafael.mystreet.repository.StatusRepository;
 import com.github.riese.rafael.mystreet.service.ClaimService;
 
+import com.github.riese.rafael.mystreet.service.StatusService;
 import com.github.riese.rafael.mystreet.service.UserService;
 import com.github.riese.rafael.mystreet.service.UtilsService;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ public class ClaimResource {
     private UserService userService;
     @Resource
     private UtilsService utilsService;
+    @Resource
+    private StatusRepository statusRepository;
 
     @GetMapping("/")
     public ResponseEntity<List<Claim>> getClaims() {
@@ -29,6 +33,7 @@ public class ClaimResource {
     @PostMapping("/")
     public ResponseEntity<Claim> save(@RequestBody Claim claim) throws Exception {
         claim.setUser(userService.findById(utilsService.getCurrentUserId()).getBody().get());
+        claim.setStatus(statusRepository.findByName("Pendente").get());
         return claimService.save(claim);
     }
 
