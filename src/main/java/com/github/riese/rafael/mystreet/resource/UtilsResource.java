@@ -20,4 +20,9 @@ public class UtilsResource {
         return utilsService.getAuthentication().getAuthorities().stream().map(c ->
                 c.getAuthority()).collect(Collectors.toList()).get(0);
     }
+
+    @GetMapping("/isadmin")
+    public boolean isAdmin() {
+        return this.getUserRole().equals("ROLE_ADMIN");
+    }
 }
