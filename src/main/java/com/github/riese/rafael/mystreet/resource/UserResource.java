@@ -5,6 +5,7 @@ import com.github.riese.rafael.mystreet.model.User;
 import com.github.riese.rafael.mystreet.repository.ProfileRepository;
 import com.github.riese.rafael.mystreet.service.UserService;
 
+import com.github.riese.rafael.mystreet.service.UtilsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ public class UserResource {
 
     @Resource
     private PasswordEncoder encoder;
+
+    @Resource
+    private UtilsService utilsService;
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
@@ -51,6 +55,9 @@ public class UserResource {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable String id) {
+        if (utilsService.getCurrentUserId().equals(id)) {
+            throw new RuntimeException("Não é possível deletar você mesmo!");
+        }
         return userService.delete(id);
     }
 }

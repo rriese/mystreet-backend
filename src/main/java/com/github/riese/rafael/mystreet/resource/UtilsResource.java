@@ -1,7 +1,6 @@
 package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.service.UtilsService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
