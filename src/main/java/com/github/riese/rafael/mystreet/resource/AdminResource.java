@@ -22,7 +22,7 @@ public class AdminResource {
     @Resource
     private UserService userService;
 
-    @PostMapping("/createCityHallUser")
+    @PostMapping("/createcityhalluser")
     public ResponseEntity<User> createCityHallUser(@RequestBody User user) throws Exception {
         user.setPassword(encoder.encode(user.getPassword()));
 
@@ -36,7 +36,7 @@ public class AdminResource {
         return userService.save(user);
     }
 
-    @PostMapping("/createAdminUser")
+    @PostMapping("/createadminuser")
     public ResponseEntity<User> createAdminUser(@RequestBody User user) throws Exception {
         user.setPassword(encoder.encode(user.getPassword()));
 
