@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/claim")
@@ -28,6 +29,13 @@ public class ClaimResource {
     @GetMapping("/")
     public ResponseEntity<List<Claim>> getClaims() {
         return claimService.findAll();
+    }
+
+    @GetMapping("/myclaims")
+    public ResponseEntity<List<Claim>> getMyClaims() {
+        var claims = claimService.findAll();
+        var myClaims = claims.getBody().stream().filter(c -> c.getUser().getId().equals(utilsService.getCurrentUserId())).collect(Collectors.toList());
+        return ResponseEntity.ok().body(myClaims);
     }
 
     @PostMapping("/")
