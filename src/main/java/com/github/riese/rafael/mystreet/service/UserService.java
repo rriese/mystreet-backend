@@ -63,4 +63,9 @@ public class UserService extends ServiceBase<User, UserRepository> {
         return ResponseEntity.notFound().build();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public ResponseEntity<User> getCurrentUser(String userId) {
+        return ResponseEntity.ok().body(userRepository.findById(userId).get());
+    }
+
 }

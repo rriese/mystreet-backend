@@ -1,6 +1,5 @@
 package com.github.riese.rafael.mystreet.resource;
 
-import com.github.riese.rafael.mystreet.model.Profile;
 import com.github.riese.rafael.mystreet.model.User;
 import com.github.riese.rafael.mystreet.repository.ProfileRepository;
 import com.github.riese.rafael.mystreet.service.UserService;
@@ -31,6 +30,11 @@ public class UserResource {
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
         return userService.findAll();
+    }
+
+    @GetMapping("/currentuser")
+    public ResponseEntity<User> getCurrentUser() {
+        return userService.getCurrentUser(utilsService.getCurrentUserId());
     }
 
     @PostMapping("/")
