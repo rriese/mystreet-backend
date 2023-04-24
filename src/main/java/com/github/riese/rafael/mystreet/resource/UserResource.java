@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -30,6 +31,18 @@ public class UserResource {
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
         return userService.findAll();
+    }
+
+    @GetMapping("/excludecityhall")
+    public ResponseEntity<List<User>> getUsersExcludingCityHall() {
+        List<User> users = userService.findAll().getBody();
+        return ResponseEntity.ok().body(users.stream().filter(c -> !c.getProfile().getName().equals("ROLE_CITY_HALL")).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/cityhall")
+    public ResponseEntity<List<User>> getUsersCityHall() {
+        List<User> users = userService.findAll().getBody();
+        return ResponseEntity.ok().body(users.stream().filter(c -> c.getProfile().getName().equals("ROLE_CITY_HALL")).collect(Collectors.toList()));
     }
 
     @GetMapping("/currentuser")

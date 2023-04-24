@@ -40,4 +40,6 @@ public class User extends Auditable implements IEntity {
     @NotNull
     @Size(min=1, max=255)
     private String password;
+    private String state;
+    private String city;
 }
