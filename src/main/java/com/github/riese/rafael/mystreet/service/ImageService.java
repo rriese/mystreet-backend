@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageService extends ServiceBase<Image, ImageRepository> {
@@ -32,5 +34,9 @@ public class ImageService extends ServiceBase<Image, ImageRepository> {
     public byte[] download(String claimId, String imageId) {
         Optional<Image> imageData = imageRepository.findByIdAndClaimId(imageId, claimId);
         return ImageUtil.decompressImage(imageData.get().getContent());
+    }
+
+    public ResponseEntity<List<String>> getImagesByClaimId(String claimId) {
+        return ResponseEntity.ok().body(imageRepository.findByClaimId(claimId).get().stream().map(c -> c.getId()).collect(Collectors.toList()));
     }
 }
