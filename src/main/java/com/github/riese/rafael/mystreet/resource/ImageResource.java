@@ -1,14 +1,14 @@
 package com.github.riese.rafael.mystreet.resource;
 
-import com.github.riese.rafael.mystreet.model.Image;
-import com.github.riese.rafael.mystreet.model.Like;
 import com.github.riese.rafael.mystreet.service.ClaimService;
 import com.github.riese.rafael.mystreet.service.ImageService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/image")
@@ -16,30 +16,15 @@ public class ImageResource {
     @Resource
     ImageService imageService;
 
-    @Resource
-    ClaimService claimService;
-
-    @GetMapping("/")
-    public ResponseEntity<List<Image>> getImages() {
-        return imageService.findAll();
-    }
-
-    @PostMapping("/")
-    public ResponseEntity<Image> save(@RequestBody Image image) throws Exception {
-        return imageService.save(image);
+    @GetMapping("/{claimId}/{imageId}")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable String claimId, @PathVariable String imageId) {
+        byte[] images = imageService.download(claimId, imageId);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(images);
     }
 
     @PostMapping("/{claimId}")
-    public ResponseEntity<Image> save(@PathVariable String claimId, @RequestBody byte[] image) throws Exception {
-        Image img = new Image();
-        img.setClaim(claimService.findById(claimId).getBody().get());
-        img.setContent(image);
-        return imageService.save(img);
-    }
-
-    @PutMapping("/")
-    public ResponseEntity<Image> update(@RequestBody Image image) throws Exception {
-        return imageService.update(image);
+    public ResponseEntity save(@PathVariable String claimId, @RequestParam MultipartFile image) throws Exception {
+        return imageService.upload(claimId, image);
     }
 
     @DeleteMapping("/{id}")
