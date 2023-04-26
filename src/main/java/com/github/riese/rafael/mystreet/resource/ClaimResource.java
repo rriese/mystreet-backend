@@ -2,15 +2,13 @@ package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.model.Claim;
 import com.github.riese.rafael.mystreet.repository.StatusRepository;
-import com.github.riese.rafael.mystreet.service.ClaimService;
+import com.github.riese.rafael.mystreet.service.*;
 
-import com.github.riese.rafael.mystreet.service.StatusService;
-import com.github.riese.rafael.mystreet.service.UserService;
-import com.github.riese.rafael.mystreet.service.UtilsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
