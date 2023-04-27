@@ -43,7 +43,7 @@ public class UserService extends ServiceBase<User, UserRepository> {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ResponseEntity<User> update(User user) {
+    public ResponseEntity<User> update(User user) throws Exception {
         Optional<User> entityOpt = repository.findById(user.getId());
 
         if (entityOpt.isPresent()) {
@@ -57,7 +57,14 @@ public class UserService extends ServiceBase<User, UserRepository> {
             }
 
             BeanUtils.copyProperties(user, oldEntity);
-            repository.save(oldEntity);
+
+            try {
+                repository.save(oldEntity);
+            } catch (DuplicateKeyException dke) {
+                throw new DuplicateKeyException("Cpf/Cnpj ou Email já está em uso!");
+            } catch (Exception ex) {
+                throw new Exception(ex.getMessage());
+            }
             return ResponseEntity.ok().body(oldEntity);
         }
         return ResponseEntity.notFound().build();

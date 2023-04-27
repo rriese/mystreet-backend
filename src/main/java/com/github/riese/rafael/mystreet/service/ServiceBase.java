@@ -45,7 +45,7 @@ public abstract class ServiceBase<T extends IEntity, U extends MongoRepository> 
         try {
             newEntity = (T) repository.insert(t);
         } catch (DuplicateKeyException dke) {
-            throw new DuplicateKeyException("Chave duplicada na base! \n" + dke.getMessage());
+            throw new DuplicateKeyException("Chave duplicada na base!");
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
@@ -54,14 +54,21 @@ public abstract class ServiceBase<T extends IEntity, U extends MongoRepository> 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ResponseEntity<T> update(T t) {
+    public ResponseEntity<T> update(T t) throws Exception {
         Optional<T> entityOpt = repository.findById(t.getId());
 
         if (entityOpt.isPresent()) {
             T oldEntity = entityOpt.get();
 
             BeanUtils.copyProperties(t, oldEntity);
-            repository.save(oldEntity);
+
+            try {
+                repository.save(oldEntity);
+            } catch (DuplicateKeyException dke) {
+                throw new DuplicateKeyException("Chave duplicada na base!");
+            } catch (Exception ex) {
+                throw new Exception(ex.getMessage());
+            }
             return ResponseEntity.ok().body(oldEntity);
         }
         return ResponseEntity.notFound().build();
