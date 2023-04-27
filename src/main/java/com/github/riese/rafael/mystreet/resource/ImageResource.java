@@ -24,7 +24,7 @@ public class ImageResource {
 
     @GetMapping("/{claimId}")
     public ResponseEntity<List<String>> getImagesByClaim(@PathVariable String claimId) {
-        return imageService.getImagesByClaimId(claimId);
+        return imageService.getImagesIdByClaimId(claimId);
     }
 
     @PostMapping("/{claimId}")

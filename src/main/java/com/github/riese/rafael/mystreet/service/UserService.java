@@ -1,8 +1,6 @@
 package com.github.riese.rafael.mystreet.service;
 
-import com.github.riese.rafael.mystreet.model.Profile;
 import com.github.riese.rafael.mystreet.model.User;
-import com.github.riese.rafael.mystreet.repository.ProfileRepository;
 import com.github.riese.rafael.mystreet.repository.UserRepository;
 
 import org.springframework.beans.BeanUtils;
@@ -12,18 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 
 @Service
 public class UserService extends ServiceBase<User, UserRepository> {
-    private UserRepository userRepository;
-    @Resource
-    private ProfileRepository profileRepository;
-
     protected UserService(UserRepository userRepository) {
         super(userRepository);
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -32,7 +24,7 @@ public class UserService extends ServiceBase<User, UserRepository> {
         User newUser;
 
         try {
-            newUser = userRepository.insert(user);
+            newUser = repository.insert(user);
         } catch (DuplicateKeyException dke) {
             throw new DuplicateKeyException("Cpf/Cnpj ou Email já está em uso!");
         } catch (Exception ex) {
@@ -72,7 +64,7 @@ public class UserService extends ServiceBase<User, UserRepository> {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public ResponseEntity<User> getCurrentUser(String userId) {
-        return ResponseEntity.ok().body(userRepository.findById(userId).get());
+        return ResponseEntity.ok().body(repository.findById(userId).get());
     }
 
 }
