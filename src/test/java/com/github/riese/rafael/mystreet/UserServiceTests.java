@@ -37,8 +37,8 @@ class UserServiceTests {
 
 		var profile = profileService.findById("6328eac3c2daf66f2ab7984f").getBody();
 
-		if (profile.isPresent()) {
-			user.setProfile(profile.get());
+		if (profile != null) {
+			user.setProfile(profile);
 		}
 
 		User userCreated = null;

@@ -52,8 +52,8 @@ public class JoinedServicesTests {
         claim.setCity("Jaraguá do Sul");
         claim.setDistrict("São luis");
         claim.setState("Santa Catarina");
-        claim.setStatus(statusService.findById("63ed55f10256fd8902331b74").getBody().get());
-        claim.setUser(userService.findById("63e41f086b02063c9d4f4c7b").getBody().get());
+        claim.setStatus(statusService.findById("63ed55f10256fd8902331b74").getBody());
+        claim.setUser(userService.findById("63e41f086b02063c9d4f4c7b").getBody());
 
         Claim claimCreated = null;
 
@@ -84,7 +84,7 @@ public class JoinedServicesTests {
     @Order(4)
     void likeClaim() {
         var like = new Like();
-        like.setUser(userService.findById("63e41f086b02063c9d4f4c7b").getBody().get());
+        like.setUser(userService.findById("63e41f086b02063c9d4f4c7b").getBody());
 
         var claim = new Claim();
         claim.setId(claimId);
@@ -117,7 +117,7 @@ public class JoinedServicesTests {
         var claim = new Claim();
         claim.setId(claimId);
         comment.setClaim(claim);
-        comment.setUser(userService.findById("63e41f086b02063c9d4f4c7b").getBody().get());
+        comment.setUser(userService.findById("63e41f086b02063c9d4f4c7b").getBody());
 
         Comment commentCreated = null;
 
