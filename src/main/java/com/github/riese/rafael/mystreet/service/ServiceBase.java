@@ -28,11 +28,11 @@ public abstract class ServiceBase<T extends IEntity, U extends MongoRepository> 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public ResponseEntity<Optional<T>> findById(String id) {
+    public ResponseEntity<T> findById(String id) {
         var entity = repository.findById(id);
 
         if (entity.isPresent()) {
-            return ResponseEntity.ok().body(entity);
+            return ResponseEntity.ok().body((T) entity.get());
         }
         return ResponseEntity.notFound().build();
     }

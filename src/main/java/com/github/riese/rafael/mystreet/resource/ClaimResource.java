@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,6 +29,11 @@ public class ClaimResource {
         return claimService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Claim> findById(@PathVariable String id) {
+        return claimService.findById(id);
+    }
+
     @GetMapping("/myclaims")
     public ResponseEntity<List<Claim>> getMyClaims() {
         var claims = claimService.findAll();
@@ -37,7 +43,7 @@ public class ClaimResource {
 
     @PostMapping("/")
     public ResponseEntity<Claim> save(@RequestBody Claim claim) throws Exception {
-        claim.setUser(userService.findById(utilsService.getCurrentUserId()).getBody().get());
+        claim.setUser(userService.findById(utilsService.getCurrentUserId()).getBody());
         claim.setStatus(statusRepository.findByName("Pendente").get());
         return claimService.save(claim);
     }

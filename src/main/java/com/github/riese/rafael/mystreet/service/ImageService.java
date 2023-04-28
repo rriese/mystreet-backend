@@ -24,7 +24,7 @@ public class ImageService extends ServiceBase<Image, ImageRepository> {
 
     public ResponseEntity<Image> upload(String claimId, MultipartFile image) throws Exception {
         Image img = new Image();
-        img.setClaim(claimService.findById(claimId).getBody().get());
+        img.setClaim(claimService.findById(claimId).getBody());
         img.setContent(ImageUtil.compressImage(image.getBytes()));
         return this.save(img);
     }
