@@ -3,6 +3,7 @@ package com.github.riese.rafael.mystreet.service;
 import com.github.riese.rafael.mystreet.model.Like;
 import com.github.riese.rafael.mystreet.repository.LikeRepository;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class LikeService extends ServiceBase<Like, LikeRepository> {
         super(likeRepository);
     }
 
-    public List<Like> getLikesByClaimId(String claimId) {
-        return repository.findByClaimId(claimId);
+    public ResponseEntity<List<Like>> getLikesByClaimId(String claimId) {
+        return ResponseEntity.ok().body(repository.findByClaimId(claimId));
     }
 }
