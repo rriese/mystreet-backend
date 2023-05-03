@@ -2,8 +2,7 @@ package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.model.Comment;
 import com.github.riese.rafael.mystreet.model.Like;
-import com.github.riese.rafael.mystreet.service.CommentService;
-import com.github.riese.rafael.mystreet.service.LikeService;
+import com.github.riese.rafael.mystreet.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +14,27 @@ import java.util.List;
 public class CommentResource {
     @Resource
     private CommentService commentService;
+    @Resource
+    private ClaimService claimService;
+    @Resource
+    private UtilsService utilsService;
+    @Resource
+    private UserService userService;
 
     @GetMapping("/")
     public ResponseEntity<List<Comment>> getComments() {
         return commentService.findAll();
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Comment> save(@RequestBody Comment comment) throws Exception {
+    @GetMapping("/{claimId}")
+    public ResponseEntity<List<Comment>> getLikesByClaimId(@PathVariable("claimId") String claimId) {
+        return commentService.getCommentsByClaimId(claimId);
+    }
+
+    @PostMapping("/{claimId}")
+    public ResponseEntity<Comment> save(@PathVariable String claimId, @RequestBody Comment comment) throws Exception {
+        comment.setUser(userService.findById(utilsService.getCurrentUserId()).getBody());
+        comment.setClaim(claimService.findById(claimId).getBody());
         return commentService.save(comment);
     }
 

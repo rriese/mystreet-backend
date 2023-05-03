@@ -7,10 +7,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 public abstract class Auditable {
     @CreatedDate
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private DateTime createdAt;
     @LastModifiedDate
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private DateTime updatedAt;
 
     public DateTime getCreatedAt() {
