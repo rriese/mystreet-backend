@@ -45,6 +45,8 @@ public class OrphanService {
 
         //Resolutions
         Resolution resolution = resolutionRepository.findByClaimId(id);
-        resolutionRepository.deleteById(resolution.getId());
+        if (resolution != null) {
+            resolutionRepository.deleteById(resolution.getId());
+        }
     }
 }
