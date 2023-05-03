@@ -36,7 +36,7 @@ public class CommentService extends ServiceBase<Comment, CommentRepository> {
         if (entity.isPresent()) {
             String currentUserId = utilsService.getCurrentUserId();
 
-            if (!entity.get().getUser().getId().equals(currentUserId)) {
+            if (currentUserId != null && !entity.get().getUser().getId().equals(currentUserId)) {
                 throw new RuntimeException("Não é possível deletar comentários que não são seus!");
             }
 

@@ -18,7 +18,7 @@ public class UtilsService {
     }
 
     public String getCurrentUserId() {
-        return (String)this.getAuthentication().getDetails();
+        return this.getAuthentication() != null ? (String)this.getAuthentication().getDetails() : null;
     }
 
 }
