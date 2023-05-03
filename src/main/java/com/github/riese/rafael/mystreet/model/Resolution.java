@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Resolution extends Auditable implements IEntity {
     @Id
     private String id;
+    private String description;
     @Indexed(unique = true)
     @DBRef
     private Claim claim;

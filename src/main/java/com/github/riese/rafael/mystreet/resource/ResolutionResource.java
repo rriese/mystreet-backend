@@ -20,6 +20,11 @@ public class ResolutionResource {
         return resolutionService.findAll();
     }
 
+    @GetMapping("/{claimId}")
+    public ResponseEntity<Resolution> getResolutionByClaimId(@PathVariable String claimId) {
+        return ResponseEntity.ok().body(resolutionService.getResolutionsByClaimId(claimId));
+    }
+
     @PostMapping("/")
     public ResponseEntity<Resolution> save(@RequestBody Resolution resolution) throws Exception {
         return resolutionService.save(resolution);

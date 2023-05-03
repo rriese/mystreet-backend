@@ -14,7 +14,7 @@ public class ResolutionService extends ServiceBase<Resolution, ResolutionReposit
         super(resolutionRepository);
     }
 
-    public List<Resolution> getResolutionsByClaimId(String claimId) {
+    public Resolution getResolutionsByClaimId(String claimId) {
         return repository.findByClaimId(claimId);
     }
 }
