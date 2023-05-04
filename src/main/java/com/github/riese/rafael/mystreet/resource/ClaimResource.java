@@ -1,6 +1,7 @@
 package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.model.Claim;
+import com.github.riese.rafael.mystreet.model.User;
 import com.github.riese.rafael.mystreet.repository.StatusRepository;
 import com.github.riese.rafael.mystreet.service.*;
 
@@ -39,6 +40,18 @@ public class ClaimResource {
         var claims = claimService.findAll();
         var myClaims = claims.getBody().stream().filter(c -> c.getUser().getId().equals(utilsService.getCurrentUserId())).collect(Collectors.toList());
         return ResponseEntity.ok().body(myClaims);
+    }
+
+    @GetMapping("/cityhallclaims")
+    public ResponseEntity<List<Claim>> getCityHallClaims() {
+        User currentUser = userService.getCurrentUser(utilsService.getCurrentUserId()).getBody();
+
+        if (currentUser != null && currentUser.getProfile().getName().equals("ROLE_CITY_HALL")) {
+            var claims = claimService.findAll();
+            var myClaims = claims.getBody().stream().filter(c -> c.getCity().equals(currentUser.getCity()) && c.getState().equals(currentUser.getState())).collect(Collectors.toList());
+            return ResponseEntity.ok().body(myClaims);
+        }
+        return this.getClaims();
     }
 
     @PostMapping("/")
