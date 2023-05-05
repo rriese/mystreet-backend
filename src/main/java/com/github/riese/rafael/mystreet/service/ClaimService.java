@@ -17,6 +17,8 @@ import java.util.Optional;
 public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
     @Resource
     private OrphanService orphanService;
+    @Resource
+    private StatusService statusService;
 
     protected ClaimService(ClaimRepository claimRepository) {
         super(claimRepository);
@@ -49,5 +51,25 @@ public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
             return ResponseEntity.ok().body(true);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+    }
+
+    public boolean closeClaim(Claim claim) {
+        return this.updateStatus(claim, "Concluído");
+    }
+
+    public boolean openClaim(Claim claim) {
+        return this.updateStatus(claim, "Pendente");
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    private boolean updateStatus(Claim claim, String statusName) {
+        var status = statusService.findByStatusName(statusName);
+
+        if (status != null) {
+            claim.setStatus(status);
+            repository.save(claim);
+            return true;
+        }
+        return false;
     }
 }

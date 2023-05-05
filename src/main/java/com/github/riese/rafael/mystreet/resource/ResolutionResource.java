@@ -25,9 +25,9 @@ public class ResolutionResource {
         return ResponseEntity.ok().body(resolutionService.getResolutionsByClaimId(claimId));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Resolution> save(@RequestBody Resolution resolution) throws Exception {
-        return resolutionService.save(resolution);
+    @PostMapping("/{claimId}")
+    public ResponseEntity<Resolution> save(@PathVariable String claimId, @RequestBody Resolution resolution) throws Exception {
+        return resolutionService.save(claimId, resolution);
     }
 
     @PutMapping("/")
