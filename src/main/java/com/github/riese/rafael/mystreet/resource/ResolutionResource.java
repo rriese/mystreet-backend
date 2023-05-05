@@ -22,7 +22,7 @@ public class ResolutionResource {
 
     @GetMapping("/{claimId}")
     public ResponseEntity<Resolution> getResolutionByClaimId(@PathVariable String claimId) {
-        return ResponseEntity.ok().body(resolutionService.getResolutionsByClaimId(claimId));
+        return ResponseEntity.ok().body(resolutionService.getResolutionByClaimId(claimId));
     }
 
     @PostMapping("/{claimId}")
@@ -35,8 +35,13 @@ public class ResolutionResource {
         return resolutionService.update(resolution);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable String id) {
-        return resolutionService.delete(id);
+    @DeleteMapping("/{claimId}")
+    public ResponseEntity<Boolean> deleteByClaimId(@PathVariable String claimId) {
+        Resolution resolution = resolutionService.getResolutionByClaimId(claimId);
+
+        if (resolution != null) {
+            return resolutionService.deleteResolutionAndOpenClaim(resolution.getId(), claimId);
+        }
+        return ResponseEntity.ok().body(false);
     }
 }
