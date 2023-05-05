@@ -42,6 +42,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                 antMatchers("/api/admin/**").hasRole("ADMIN").
                 antMatchers("/api/status/**").hasRole("ADMIN").
                 antMatchers("/api/profile/**").hasRole("ADMIN").
+                antMatchers("/api/resolution/**").hasRole("CITY_HALL").
                 antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
