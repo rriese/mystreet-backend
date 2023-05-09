@@ -2,11 +2,11 @@ package com.github.riese.rafael.mystreet.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@Service
+@Component
 public class MailService {
     @Resource
     private JavaMailSender mailSender;
