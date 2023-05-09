@@ -44,6 +44,7 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                 antMatchers("/api/admin/**").hasRole("ADMIN").
                 antMatchers("/api/status/**").hasRole("ADMIN").
                 antMatchers("/api/profile/**").hasRole("ADMIN").
+                antMatchers("/api/chart/**").hasRole("ADMIN").
                 antMatchers(HttpMethod.POST, "/api/resolution/**").hasRole("CITY_HALL").
                 antMatchers(HttpMethod.PUT, "/api/resolution/**").hasRole("CITY_HALL").
                 antMatchers(HttpMethod.DELETE, "/api/resolution/**").hasRole("CITY_HALL").
