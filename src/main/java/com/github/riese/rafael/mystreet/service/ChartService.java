@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChartService {
@@ -105,11 +108,21 @@ public class ChartService {
             if (data.get(userName) == null) {
                 data.put(userName, 1D);
             } else {
-                if (data.size() <= 10) {
-                    data.put(userName, data.get(userName) + 1);
-                }
+                data.put(userName, data.get(userName) + 1);
             }
         }
+        chart.getData().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        Map<String, Double> newMap = new HashMap<>();
+        for (Map.Entry<String, Double> entry : chart.getData().entrySet()) {
+            if (newMap.size() <= 10) {
+                newMap.put(entry.getKey(), entry.getValue());
+            } else {
+                break;
+            }
+        }
+        chart.setData(newMap);
+
         return ResponseEntity.ok().body(chart);
     }
 
