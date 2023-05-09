@@ -35,28 +35,14 @@ jobs:
           spring.data.mongodb.uri
           spring.data.mongodb.auto-index-creation
           spring.mvc.pathmatch.matching-strategy
-          spring.mail.host
-          spring.mail.port
-          spring.mail.protocol
           spring.mail.username
           spring.mail.password
-          spring.mail.properties.mail.smtp.auth
-          spring.mail.properties.mail.smtp.starttls.enable
-          spring.mail.properties.mail.smtp.starttls.required
-          spring.mail.properties.mail.smtp.quitwait
         value: |
           ${{secrets.MONGODB_URI}}
           ${{secrets.MONGODB_INDEX_CREATION}}
           ${{secrets.SPRING_MATCHING_STRATEGY}}
-          ${{secrets.MAIL_HOST}}
-          ${{secrets.MAIL_PORT}}
-          ${{secrets.MAIL_PROTOCOL}}
           ${{secrets.MAIL_USERNAME}}
           ${{secrets.MAIL_PASSWORD}}
-          ${{secrets.MAIL_AUTH}}
-          ${{secrets.MAIL_STARTTLS_ENABLE}}
-          ${{secrets.MAIL_STARTTLS_REQUIRED}}
-          ${{secrets.MAIL_QUITWAIT}}
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
