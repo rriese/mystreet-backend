@@ -18,6 +18,11 @@ public class UserService extends ServiceBase<User, UserRepository> {
         super(userRepository);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<User> save(User user) throws Exception {
@@ -60,6 +65,19 @@ public class UserService extends ServiceBase<User, UserRepository> {
             return ResponseEntity.ok().body(oldEntity);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public ResponseEntity<User> updateUserPassword(User user) throws Exception {
+        User userUpdated;
+        try {
+            userUpdated = repository.save(user);
+        } catch (DuplicateKeyException dke) {
+            throw new DuplicateKeyException("Cpf/Cnpj ou Email já está em uso!");
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+        return ResponseEntity.ok().body(userUpdated);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
