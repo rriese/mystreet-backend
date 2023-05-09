@@ -46,6 +46,7 @@ public class ResetPasswordResource {
                 User newUser = userOpt.get();
                 newUser.setPassword(encoder.encode(user.getPassword()));
                 userService.updateUserPassword(newUser);
+                resetPasswordService.deleteTokensByEmail(email);
             }
             return ResponseEntity.ok().body(true);
         }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,7 +33,20 @@ public class ResetPasswordService extends ServiceBase<ResetPassword, ResetPasswo
         return null;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public boolean deleteTokensByEmail(String email) {
+        var model = repository.findByEmail(email);
+
+        if (model.isPresent()) {
+            for (ResetPassword reset : model.get()) {
+                super.delete(reset.getId());
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<Boolean> resetPassword(String email) throws Exception {
         var user = userRepository.findByEmail(email);
 
@@ -44,7 +58,7 @@ public class ResetPasswordService extends ServiceBase<ResetPassword, ResetPasswo
 
             reset.setToken(token);
             repository.save(reset);
-            mailService.sendEmail(/*email*/"rafariese@gmail.com", "Reset password link", "Para alterar a senha, acesse o link https://mystreet-frontend.vercel.app/changepassword/" + token);
+            mailService.sendEmail(/*email*/"rafariese@gmail.com", "Link para alteração de senha MyStreet", "Para alterar a senha, acesse o link https://mystreet-frontend.vercel.app/changepassword/"/*"Para alterar a senha, acesse o link http://localhost:3000/changepassword/"*/ + token);
             return ResponseEntity.ok().body(true);
         }
         throw new RuntimeException("Usuário válido não encontrado com este email!");
