@@ -27,7 +27,7 @@ public class ReportResource {
     public void exportUsersToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         String uuid = UUID.randomUUID().toString();
-        response.setHeader("Content-Disposition", "attachment; filename=users-" + uuid + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + uuid + ".xlsx");
         response.setContentType("application/vnd.ms-excel");
         List<User> users = userService.findAll().getBody();
         ExcelUtil<User> excelUtil = new ExcelUtil<>(users);
@@ -38,7 +38,7 @@ public class ReportResource {
     public void exportClaimsToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         String uuid = UUID.randomUUID().toString();
-        response.setHeader("Content-Disposition", "attachment; filename=claims-" + uuid + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + uuid + ".xlsx");
         response.setContentType("application/vnd.ms-excel");
         List<Claim> claims = claimService.findAll().getBody();
         ExcelUtil<Claim> excelUtil = new ExcelUtil<>(claims);
