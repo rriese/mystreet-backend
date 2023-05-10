@@ -2,7 +2,6 @@ package com.github.riese.rafael.mystreet.security;
 
 import com.github.riese.rafael.mystreet.repository.UserRepository;
 import com.github.riese.rafael.mystreet.service.UserDetailService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +15,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @EnableWebSecurity
@@ -45,7 +43,8 @@ public class JwtConfiguration extends WebSecurityConfigurerAdapter {
                 antMatchers("/api/status/**").hasRole("ADMIN").
                 antMatchers("/api/profile/**").hasRole("ADMIN").
                 antMatchers("/api/chart/**").hasRole("ADMIN").
-                antMatchers("/api/report/**").permitAll()./*hasRole("ADMIN").*/
+                antMatchers("/api/report/excel/users/generate").hasRole("ADMIN").
+                antMatchers("/api/report/export/**").permitAll().
                 antMatchers(HttpMethod.POST, "/api/resolution/**").hasRole("CITY_HALL").
                 antMatchers(HttpMethod.PUT, "/api/resolution/**").hasRole("CITY_HALL").
                 antMatchers(HttpMethod.DELETE, "/api/resolution/**").hasRole("CITY_HALL").

@@ -1,5 +1,6 @@
 package com.github.riese.rafael.mystreet.util;
 
+import com.github.riese.rafael.mystreet.cache.DocumentCache;
 import com.github.riese.rafael.mystreet.model.Auditable;
 import com.github.riese.rafael.mystreet.model.Claim;
 import com.github.riese.rafael.mystreet.model.User;
@@ -96,6 +97,16 @@ public class ExcelUtil <T extends Auditable> {
                 createCell(row, columnCount++, claim.getStatus().getName(), style);
             }
         }
+    }
+
+    public String generateExcelFile() {
+        writeHeader();
+        write();
+
+        String className = data.get(0).getClass().getName();
+        String fileName = className.substring(className.lastIndexOf(".") + 1, className.length()) + ".xslx";
+        DocumentCache.getInstance().addInCache(fileName, workbook);
+        return fileName;
     }
 
     public void generateExcelFile(HttpServletResponse response) throws IOException {
