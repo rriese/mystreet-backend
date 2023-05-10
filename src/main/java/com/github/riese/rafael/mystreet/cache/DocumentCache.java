@@ -17,11 +17,15 @@ public final class DocumentCache {
         return instance;
     }
 
-    public synchronized void addInCache(String key, XSSFWorkbook workbook) {
-        cache.put(key, workbook);
+    public void addInCache(String key, XSSFWorkbook workbook) {
+        synchronized (cache) {
+            cache.put(key, workbook);
+        }
     }
 
     public XSSFWorkbook getFromCache(String key) {
-        return cache.get(key);
+        synchronized (cache) {
+            return cache.get(key);
+        }
     }
 }
