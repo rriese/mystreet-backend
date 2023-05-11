@@ -58,7 +58,7 @@ public class ResetPasswordService extends ServiceBase<ResetPassword, ResetPasswo
 
             reset.setToken(token);
             repository.save(reset);
-            mailService.sendEmail(/*email*/"rafariese@gmail.com", "Link para alteração de senha MyStreet", "Para alterar a senha, acesse o link https://mystreet-frontend.vercel.app/changepassword/"/*"Para alterar a senha, acesse o link http://localhost:3000/changepassword/"*/ + token);
+            mailService.sendEmail(email, "Link para alteração de senha MyStreet", "Para alterar a senha, acesse o link https://mystreet-frontend.vercel.app/changepassword/" + token);
             return ResponseEntity.ok().body(true);
         }
         throw new RuntimeException("Usuário válido não encontrado com este email!");
