@@ -77,24 +77,23 @@ public class ExcelUtil <T extends Auditable> {
         style.setFont(font);
         for (var record: data) {
             Row row = sheet.createRow(rowCount++);
-            int columnCount = 0;
             if (record instanceof User) {
                 User user = (User)record;
-                createCell(row, columnCount++, user.getId(), style);
-                createCell(row, columnCount++, user.getName(), style);
-                createCell(row, columnCount++, user.getEmail(), style);
-                createCell(row, columnCount++, user.getCpfCnpj(), style);
-                createCell(row, columnCount++, user.getProfile().getName(), style);
+                createCell(row, 0, user.getId(), style);
+                createCell(row, 1, user.getName(), style);
+                createCell(row, 2, user.getEmail(), style);
+                createCell(row, 3, user.getCpfCnpj(), style);
+                createCell(row, 4, user.getProfile().getName(), style);
             } else if (record instanceof Claim) {
                 Claim claim = (Claim)record;
-                createCell(row, columnCount++, claim.getId(), style);
-                createCell(row, columnCount++, claim.getTitle(), style);
-                createCell(row, columnCount++, claim.getDescription(), style);
-                createCell(row, columnCount++, claim.getState(), style);
-                createCell(row, columnCount++, claim.getCity(), style);
-                createCell(row, columnCount++, claim.getDistrict(), style);
-                createCell(row, columnCount++, claim.getUser().getName(), style);
-                createCell(row, columnCount++, claim.getStatus().getName(), style);
+                createCell(row, 0, claim.getId(), style);
+                createCell(row, 1, claim.getTitle(), style);
+                createCell(row, 2, claim.getDescription(), style);
+                createCell(row, 3, claim.getState(), style);
+                createCell(row, 4, claim.getCity(), style);
+                createCell(row, 5, claim.getDistrict(), style);
+                createCell(row, 6, claim.getUser().getName(), style);
+                createCell(row, 7, claim.getStatus().getName(), style);
             }
         }
     }
