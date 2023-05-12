@@ -41,6 +41,11 @@ public class ClaimResource {
         return ResponseEntity.ok().body(myClaims);
     }
 
+    @GetMapping("/find/{term}")
+    public ResponseEntity<List<Claim>> findClaims(@PathVariable String term) {
+        return claimService.searchClaims(term);
+    }
+
     @GetMapping("/cityhallclaims")
     public ResponseEntity<List<Claim>> getCityHallClaims() {
         User currentUser = userService.getCurrentUser(utilsService.getCurrentUserId()).getBody();

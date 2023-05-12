@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,25 @@ public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
 
     protected ClaimService(ClaimRepository claimRepository) {
         super(claimRepository);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public ResponseEntity<List<Claim>> searchClaims(String term) {
+        List<Claim> claims = this.findAll().getBody();
+        List<Claim> result = new ArrayList<>();
+        term = term.toUpperCase();
+
+        for (Claim claim : claims) {
+            if (claim.getState().toUpperCase().contains(term) ||
+                claim.getCity().toUpperCase().contains(term) ||
+                claim.getDistrict().toUpperCase().contains(term) ||
+                claim.getTitle().toUpperCase().contains(term) ||
+                claim.getDescription().toUpperCase().contains(term)) {
+                result.add(claim);
+            }
+        }
+
+        return ResponseEntity.ok().body(result);
     }
 
     @Override
