@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
@@ -21,6 +22,8 @@ public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
     private OrphanService orphanService;
     @Resource
     private StatusService statusService;
+    @Resource
+    private UtilsService utilsService;
 
     protected ClaimService(ClaimRepository claimRepository) {
         super(claimRepository);
@@ -51,6 +54,12 @@ public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
         Optional<Claim> entityOpt = repository.findById(claim.getId());
 
         if (entityOpt.isPresent()) {
+            if (!utilsService.getAuthentication().getAuthorities().stream().map(c ->
+                    c.getAuthority()).collect(Collectors.toList()).get(0).equals("ROLE_ADMIN") &&
+                    !entityOpt.get().getUser().getId().equals(utilsService.getCurrentUserId())) {
+                throw new RuntimeException("Você não tem autorização para atualizar uma reclamação que não é sua!");
+            }
+
             Claim oldEntity = entityOpt.get();
             claim.setUser(oldEntity.getUser());
             claim.setStatus(oldEntity.getStatus());
@@ -67,6 +76,11 @@ public class ClaimService extends ServiceBase<Claim, ClaimRepository> {
         Optional<Claim> entity = repository.findById(id);
 
         if (entity.isPresent()) {
+            if ((utilsService.getAuthentication() != null && !utilsService.getAuthentication().getAuthorities().stream().map(c -> c.getAuthority()).collect(Collectors.toList()).get(0).equals("ROLE_ADMIN")) &&
+                    !entity.get().getUser().getId().equals(utilsService.getCurrentUserId())) {
+                throw new RuntimeException("Você não tem autorização para deletar uma reclamação que não é sua!");
+            }
+
             repository.deleteById(entity.get().getId());
             orphanService.deleteClaimOrphanCascade(id);
             return ResponseEntity.ok().body(true);
