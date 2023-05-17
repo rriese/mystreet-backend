@@ -111,7 +111,12 @@ public class ChartService {
                 data.put(userName, data.get(userName) + 1);
             }
         }
-        chart.getData().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        chart.setData(chart.getData().entrySet().
+                stream().
+                sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).
+                    collect(java.util.stream.Collectors.toMap(Map.Entry::getKey,
+                            Map.Entry::getValue, (oldValue, newValue) ->
+                                    oldValue, java.util.LinkedHashMap::new)));
 
         Map<String, Double> newMap = new HashMap<>();
         for (Map.Entry<String, Double> entry : chart.getData().entrySet()) {
