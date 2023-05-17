@@ -23,22 +23,22 @@ public class User extends Auditable implements IEntity {
     @Id
     private String id;
     @NotNull
-    @Size(min=1, max=255)
+    @Size(min=1, max=255, message = "Nome deve ter entre {min} e {max} caracteres")
     private String name;
     @DBRef
     @NotNull
     Profile profile;
     @Indexed(unique=true)
     @NotNull
-    @Size(min=1, max=255)
+    @Size(min=1, max=255, message = "Cpf/Cnpj deve ter entre {min} e {max} caracteres")
     private String cpfCnpj;
     @Indexed(unique=true)
     @NotNull
-    @Size(min=1, max=255)
+    @Size(min=1, max=255, message = "Email deve ter entre {min} e {max} caracteres")
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
-    @Size(min=1, max=255)
+    @Size(min=1, max=255, message = "Senha deve ter entre {min} e {max} caracteres")
     private String password;
     private String state;
     private String city;

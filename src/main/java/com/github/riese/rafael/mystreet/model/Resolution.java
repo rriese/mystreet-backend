@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Resolution extends Auditable implements IEntity {
     @Id
     private String id;
+    @Size(min=5, max=1000, message = "Descrição deve ter entre {min} e {max} caracteres")
     private String description;
     @Indexed(unique = true)
     @DBRef
