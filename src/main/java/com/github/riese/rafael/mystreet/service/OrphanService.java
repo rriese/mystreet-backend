@@ -1,9 +1,6 @@
 package com.github.riese.rafael.mystreet.service;
 
-import com.github.riese.rafael.mystreet.model.Comment;
-import com.github.riese.rafael.mystreet.model.Image;
-import com.github.riese.rafael.mystreet.model.Like;
-import com.github.riese.rafael.mystreet.model.Resolution;
+import com.github.riese.rafael.mystreet.model.*;
 import com.github.riese.rafael.mystreet.repository.CommentRepository;
 import com.github.riese.rafael.mystreet.repository.ImageRepository;
 import com.github.riese.rafael.mystreet.repository.LikeRepository;
@@ -23,6 +20,8 @@ public class OrphanService {
     LikeRepository likeRepository;
     @Resource
     ResolutionRepository resolutionRepository;
+    @Resource
+    CityService cityService;
 
     protected void deleteClaimOrphanCascade(String id) {
         //Images
@@ -48,5 +47,13 @@ public class OrphanService {
         if (resolution != null) {
             resolutionRepository.deleteById(resolution.getId());
         }
+    }
+
+    protected void deleteStateOrphanCascade(String id) {
+        List<City> cities = cityService.findByStateId(id);
+
+        cities.forEach(city -> {
+            cityService.delete(city.getId());
+        });
     }
 }
