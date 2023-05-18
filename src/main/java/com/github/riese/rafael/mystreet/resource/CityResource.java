@@ -1,7 +1,6 @@
 package com.github.riese.rafael.mystreet.resource;
 
 import com.github.riese.rafael.mystreet.model.City;
-import com.github.riese.rafael.mystreet.model.State;
 import com.github.riese.rafael.mystreet.service.CityService;
 import com.github.riese.rafael.mystreet.service.StateService;
 import org.springframework.http.ResponseEntity;
