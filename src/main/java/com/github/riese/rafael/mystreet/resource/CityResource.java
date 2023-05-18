@@ -3,6 +3,7 @@ package com.github.riese.rafael.mystreet.resource;
 import com.github.riese.rafael.mystreet.model.City;
 import com.github.riese.rafael.mystreet.model.State;
 import com.github.riese.rafael.mystreet.service.CityService;
+import com.github.riese.rafael.mystreet.service.StateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,14 +15,17 @@ import java.util.List;
 public class CityResource {
     @Resource
     private CityService cityService;
+    @Resource
+    private StateService stateService;
 
     @GetMapping("/")
     public ResponseEntity<List<City>> getCities() {
         return cityService.findAll();
     }
 
-    @PostMapping("/")
-    public ResponseEntity<City> save(@RequestBody City city) throws Exception {
+    @PostMapping("/{state}")
+    public ResponseEntity<City> save(@PathVariable String state, @RequestBody City city) throws Exception {
+        city.setState(stateService.findByName(state));
         return cityService.save(city);
     }
 
